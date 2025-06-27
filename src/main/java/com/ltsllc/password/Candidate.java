@@ -23,7 +23,7 @@ public abstract class Candidate {
 
     public static final Object NAME_SEPARATOR = ",";
 
-    public static final String ANY_CHARACTERS_ALL_LOWER_CASE = "abcdefghijklmnopqrstuvwxyz1234567890!#$%^&*()";
+    public static final String ANY_LOWER_CASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890!#$%^&*()";
 
     public static Candidate ourInstance;
 

@@ -25,7 +25,7 @@ public class Password {
         }
 
         for (int i = 0; i < properties.getLength() - candidates.length; i++) {
-            bag.add(new AnyCharacterAllLowerCase());
+            bag.add(new AnyLowerCaseCharacter());
         }
 
         while (bag.notEmpty()) {
