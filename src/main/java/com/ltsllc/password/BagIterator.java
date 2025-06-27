@@ -16,6 +16,6 @@ public class BagIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext () {
-        return bag.list.isEmpty();
+        return !bag.list.isEmpty();
     }
 }
