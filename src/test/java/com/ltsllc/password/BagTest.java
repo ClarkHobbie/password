@@ -26,7 +26,7 @@ class BagTest {
         assert(bag.notEmpty());
         c = bag.next();
         assert (c != null);
-        assert (!bag.notEmpty());
+        assert (bag.isEmpty());
 
     }
 

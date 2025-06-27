@@ -34,4 +34,8 @@ public class Bag<T> implements Iterable<T> {
     public boolean contains(T t) {
         return list.contains(t);
     }
+
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
 }
