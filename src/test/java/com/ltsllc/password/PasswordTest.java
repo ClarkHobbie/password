@@ -30,5 +30,23 @@ class PasswordTest {
 
     @Test
     void generatePassword() {
+        File file = new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
+        if (file.exists())
+            file.delete();
+
+        PasswordProperties properties = new PasswordProperties();
+        properties.defineNew(file);
+
+        properties.setCandidatesString(NumberCharacter.NAME);
+        properties.store(file);
+
+        Password password = new Password();
+        String passwordString = password.generate();
+
+        StringBuilder builder = new StringBuilder();
+
+        NumberCharacter numberCharacter = new NumberCharacter();
+
+        assert(numberCharacter.contains(passwordString));
     }
 }

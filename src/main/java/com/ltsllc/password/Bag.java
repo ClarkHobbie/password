@@ -18,7 +18,7 @@ public class Bag<T> implements Iterable<T> {
      }
 
      public boolean notEmpty() {
-        return list.size() > 0;
+        return !list.isEmpty();
      }
 
      public int size() {
