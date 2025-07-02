@@ -6,7 +6,7 @@ password such that
 * there is always a lower case letter.
 * there is always a digit.
 * there is always a symbol taken from the set [!@#$%^&*()]
-* all the other character are taken from the set of lower case letters, digits and symbols.
+* all the other characters are taken from the set of lower case letters, digits and symbols.
 
 The placement of a character (other than the first) cannot be ascertained before
 hand.
