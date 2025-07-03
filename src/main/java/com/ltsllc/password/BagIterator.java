@@ -2,6 +2,11 @@ package com.ltsllc.password;
 
 import java.util.Iterator;
 
+/******************************************************************************
+ * An {@link Iterator} for a bag.
+ *
+ * @param <T> The type of the items.
+ */
 public class BagIterator<T> implements Iterator<T> {
     Bag<T> bag = null;
 
