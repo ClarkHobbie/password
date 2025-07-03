@@ -128,8 +128,7 @@ public class PasswordProperties {
         }
 
         PasswordProperties passwordProperties = new PasswordProperties();
-        passwordProperties.setLength(9);
-        passwordProperties.setCandidatesString(DEFAULT_CANDIDATE_STRING);
+        passwordProperties.setDefaultProperties();
         properties = passwordProperties;
         Gson gson = new Gson();
         String text = gson.toJson(passwordProperties);
@@ -212,8 +211,7 @@ public class PasswordProperties {
         }
 
         PasswordProperties passwordProperties = new PasswordProperties();
-        passwordProperties.setLength(9);
-        passwordProperties.setCandidatesString(DEFAULT_CANDIDATE_STRING);
+        passwordProperties.setDefaultProperties();
         properties = passwordProperties;
         Gson gson = new Gson();
         String text = gson.toJson(passwordProperties);
@@ -233,8 +231,8 @@ public class PasswordProperties {
 
 
     public void setDefaultProperties() {
-        properties.setLength(9);
-        properties.setCandidatesString(LowerCaseCharacter.NAME + Candidate.NAME_SEPARATOR +
+        setLength(8);
+        setCandidatesString(LowerCaseCharacter.NAME + Candidate.NAME_SEPARATOR +
                 NumberCharacter.NAME + Candidate.NAME_SEPARATOR +
                 SymbolCharacter.NAME);
     }
