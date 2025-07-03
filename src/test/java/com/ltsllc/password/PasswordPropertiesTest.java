@@ -1,5 +1,7 @@
 package com.ltsllc.password;
 
+import com.ltsllc.commons.io.TextFile;
+
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -225,7 +228,7 @@ class PasswordPropertiesTest {
         TextFile textFile = new TextFile(PasswordProperties.propertiesFile);
         textFile.load();
         Gson gson = new Gson();
-        passwordProperties = gson.fromJson(textFile.getReader(), PasswordProperties.class);
+        passwordProperties = gson.fromJson(new InputStreamReader(textFile.getInputStream()), PasswordProperties.class);
 
         assert (passwordProperties.getCandidatesString().equalsIgnoreCase(PasswordProperties.DEFAULT_CANDIDATE_STRING));
 
