@@ -41,7 +41,16 @@ public abstract class Candidate {
         Candidate.ourInstance = new UnknownCharacter();
     }
 
-
+    /**************************************************************************
+     * Convert a String to the {@link Candidate} it represents.
+     *
+     * The method assumes that the input String is one of NAMEs defined by
+     * {@link Candidate}.  If the method does not recognize the input string
+     * it returns {@link UnknownCharacter}.
+     *
+     * @param s The input string.
+     * @return The corresponding {@link Candidate}
+     */
     public static Candidate parseCandidate(String s) {
         if (s.equalsIgnoreCase(UPPERCASE_NAME.toString()))
             return new UpperCaseCharacter();
@@ -62,6 +71,16 @@ public abstract class Candidate {
         return new UnknownCharacter();
     }
 
+    /**************************************************************************
+     * Convert a string to a sequence of {@link Candidate} instances.
+     *
+     * The method assumes that the string takes the form of a sequence of
+     * {@link Candidate} NAMEs separated by {@link Candidate#NAME_SEPARATOR}
+     * characters.
+     *
+     * @param string The string to convert.
+     * @return The sequence of {@link Candidate}s the input string represents.
+     */
     public static Candidate[] parse(String string) {
         String[] strings = string.split(NAME_SEPARATOR.toString());
         Candidate[] candidates = new Candidate[strings.length];
@@ -73,5 +92,11 @@ public abstract class Candidate {
         return candidates;
     }
 
+    /**************************************************************************
+     * Create a character taken from the set of characters the {@link Candidate}
+     * defines.
+     *
+     * @return The resulting character.
+     */
     public abstract char generate();
 }
