@@ -229,24 +229,6 @@ class PasswordPropertiesTest {
 
         assert (passwordProperties.getCandidatesString().equalsIgnoreCase(PasswordProperties.DEFAULT_CANDIDATE_STRING));
 
-        //
-        // cannot test with a file that cannot be created
-        //
-        // File dir = new File("test");
-        // if (dir.isDirectory() && dir.canWrite()) {
-//            if (!dir.setReadOnly()) {
-//                throw new RuntimeException("could not make directory read-onl.  Directory, " + dir);
-//            }
-//        }
-//        RuntimeException runtimeException = null;
-
-//        try {
-//            PasswordProperties.store();
-//        } catch (RuntimeException e) {
-//            runtimeException = e;
-//        }
-
-//        assert (runtimeException != null);
     }
 
 
