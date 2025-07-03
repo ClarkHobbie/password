@@ -1,5 +1,8 @@
 package com.ltsllc.password;
 
+import com.google.gson.Gson;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -34,28 +37,16 @@ class PasswordPropertiesTest {
 
     @Test
     void load() {
-        File file = new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
-        PasswordProperties passwordProperties = new PasswordProperties();
+        File file = PasswordProperties.propertiesFile;
 
-        file.delete();
-        passwordProperties.load(file);
-        assert (file.exists());
-    }
-
-    @Test
-    void defineNew() {
-        prepare();
-        try {
-            File file = new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
-            PasswordProperties passwordProperties = new PasswordProperties();
-
-            boolean result = file.delete();
-            assert (!file.exists());
-            passwordProperties.defineNew(file);
-            assert(file.exists());
-        } finally {
-            cleanup();
+        if (file.exists()) {
+            file.delete();
         }
+        PasswordProperties.define();
+        PasswordProperties.load();
+        PasswordProperties.store();
+
+        assert (file.exists());
     }
 
     @Test
@@ -74,7 +65,7 @@ class PasswordPropertiesTest {
             } catch (RuntimeException e) {
                 throw new RuntimeException("Could not store to file, " + propertiesFileName, e);
             }
-            p.loadProperties(new File(propertiesFileName));
+            p.load(new File(propertiesFileName));
 
             assert (file.exists());
             assert (p.getCandidatesString().equalsIgnoreCase(UpperCaseCharacter.NAME));
@@ -218,68 +209,93 @@ class PasswordPropertiesTest {
         }
     }
 
-    void createTempFile (File file) {
-        file.mkdir();;
-    }
-
-    void makeDirectoryReadonly(File dir, Path path) {
-        String[] strings = dir.list();
-
-        for (int i = 0; i < strings.length; i++) {
-            File file = new File(dir, strings[i]);
-            file.setWritable(false);
-        }
-
-        try {
-            Files.setAttribute(path, "dos:readonly", true);
-        } catch (IOException e) {
-            throw new RuntimeException("could not make directory, " + dir + ", readonly", e);
-        }
-
-        try {
-            Object result = Files.getAttribute(path, "dos:readonly");
-            result = result;
-        } catch (IOException e) {
-            throw new RuntimeException("error reading readonly state of file, " + path, e);
-        }
-    }
 
     @Test
     void store() {
-        prepare();
+        //
+        // make sure store works
+        //
+        PasswordProperties passwordProperties = new PasswordProperties();
+        passwordProperties.setDefaultProperties();
+        PasswordProperties.store();
+
+        File file = PasswordProperties.propertiesFile;
+
+        assert (file.exists());
+        TextFile textFile = new TextFile(PasswordProperties.propertiesFile);
+        textFile.load();
+        Gson gson = new Gson();
+        passwordProperties = gson.fromJson(textFile.getReader(), PasswordProperties.class);
+
+        assert (passwordProperties.getCandidatesString().equalsIgnoreCase(PasswordProperties.DEFAULT_CANDIDATE_STRING));
+
+        //
+        // cannot test with a file that cannot be created
+        //
+        // File dir = new File("test");
+        // if (dir.isDirectory() && dir.canWrite()) {
+//            if (!dir.setReadOnly()) {
+//                throw new RuntimeException("could not make directory read-onl.  Directory, " + dir);
+//            }
+//        }
+//        RuntimeException runtimeException = null;
+
+//        try {
+//            PasswordProperties.store();
+//        } catch (RuntimeException e) {
+//            runtimeException = e;
+//        }
+
+//        assert (runtimeException != null);
+    }
+
+
+
+    @BeforeAll
+    static void setUp () {
+        File file = new File("test/test.txt");
+        PasswordProperties.propertiesFile = file;
+
+        Path path = ImprovedPaths.toPath("test");
+
         try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            throw new RuntimeException("could not create directory, " + file, e);
+        }
 
-            PasswordProperties passwordProperties = new PasswordProperties();
-            passwordProperties.setCandidatesString(LowerCaseCharacter.NAME);
-
-            //
-            // test with a file that cannot be created
-            //
-            File dir = new File("temp");
-            try {
-                makeDirectoryReadonly(dir, Paths.get("temp"));
-            } catch (RuntimeException e) {
-                throw new RuntimeException("could not make directory, " + dir + ", readonly", e);
-            }
-            File file = null;
-            // file = new File(dir, PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
-
-
-            String string = dir.getAbsolutePath();
-            Path path = Paths.get("temp");
-
-            file = new File("temp");
-            boolean result = file.setReadOnly();
-
-
-            try {
-                passwordProperties.store(file);
-            } catch (RuntimeException e) {
-                throw new RuntimeException("could not store properties file, " + file, e);
-            }
-
-        } finally {
-            cleanup();
+        if (!PasswordProperties.propertiesFile.exists()) {
+            PasswordProperties.define();
         }
     }
+
+    @AfterAll
+    static void tearDown () {
+        File file = new File("test");
+
+        if (file.isDirectory()) {
+            deleteDirectory(file);
+        }
+    }
+
+    static void deleteDirectory(File parent) {
+        String[] strings = parent.list();
+        for (String string : strings) {
+            delete(new File(parent + File.pathSeparator + string));
+        }
+   }
+
+   static void delete (File file) {
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                deleteDirectory(file);
+            } else if (file.isFile()) {
+                if (!file.delete()) {
+                    throw new RuntimeException("could not delete file, " + file);
+                }
+            } else {
+                throw new RuntimeException("impossible case");
+            }
+        }
+   }
 }

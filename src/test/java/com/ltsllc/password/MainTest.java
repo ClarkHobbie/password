@@ -17,14 +17,18 @@ class MainTest {
     void generatePassword() {
         Main main = new Main();
         PasswordProperties properties = new PasswordProperties();
-        File file = new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
-        Path path = Paths.get(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
+        File file = PasswordProperties.propertiesFile;
+        Path path = ImprovedPaths.toPath(file);
 
         if (Files.exists(path)) {
-            deleteFile(path);
+            try {
+                Files.delete(path);
+            } catch (IOException e) {
+                throw new RuntimeException("error deleting file, " + path, e);
+            }
         }
-        properties.defineNew(file);
-        properties.load(file);
+        PasswordProperties.define(file);
+        PasswordProperties.load();
 
         String password = main.generatePassword();
 

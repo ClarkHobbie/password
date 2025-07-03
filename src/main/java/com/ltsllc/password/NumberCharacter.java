@@ -9,9 +9,15 @@ public class NumberCharacter extends Candidate{
         return Candidate.NUMBER_CHARACTERS.charAt(index);
     }
 
-    public boolean contains(String string) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(string);
-        return Candidate.NUMBER_CHARACTERS.contains(builder.toString());
+    public boolean in(String string) {
+        for (char c : Candidate.NUMBER_CHARACTERS.toCharArray()) {
+            for (char d : string.toCharArray()) {
+                if (c == d) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

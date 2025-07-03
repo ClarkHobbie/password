@@ -5,6 +5,13 @@ import com.google.gson.Gson;
 import java.io.*;
 
 public class Main {
+    /****************************************************************
+     * prioritize a file
+     *
+     * This method looks in password.properties for configuration
+     * data.  The configuration data takes the form of a JASON file
+     * that controls the length and content of the password.
+     */
     public static void main() {
         //
         // load properties, if properties don't exist, create them
@@ -34,18 +41,38 @@ public class Main {
         System.out.println(stringBuilder.toString());
     }
 
+    /**************************************************************************
+     * Generate the password
+     *
+     * This method will also load password.properties.  The method then
+     * generates the password.
+     *
+     * @return The generated password.
+     */
     public String generatePassword() {
         String password = "";
         Password passwordGenerator = new Password();
 
         if (Password.properties == null) {
             Password.properties = new PasswordProperties();
-            Password.properties.load(new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME));
+            PasswordProperties.load();
         }
 
         return passwordGenerator.generate();
     }
 
+    /**************************************************************************
+     * Define a new properties file.
+     *
+     * This method will create a new properties file.  This method assumes that
+     * the file does not exist and will behave unpredictably if it exists.  The
+     * file created will have the default properties assigned to it.
+     *
+     * @see PasswordProperties for the default poperties.
+     * @param file The file to create.
+     * @throws RuntimeException if there are opening the file, writing the
+     * file, or closing the file.
+     */
     public static void defineNewProperties(File file) {
         FileWriter fileWriter = null;
         try {
@@ -72,6 +99,14 @@ public class Main {
         }
     }
 
+    /**************************************************************************
+     * Load the properties file
+     *
+     * Load the properties from the designated file.  The method assumes that
+     * the designated file exists and will behave unpredictably,
+     *
+     * @param file
+     */
     public static void loadProperties(File file) {
         FileReader fileReader = null;
 

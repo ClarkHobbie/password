@@ -7,11 +7,12 @@ public class Password {
     public static final String DEFAULT_PROPERTIES_FILE = "password.properties";
 
     public String generate () {
-        File file = new File(properties.DEFAULT_PROPERTIES_FILE_NAME);
-        if (!file.exists())
-            properties.defineNew(file);
+        File file = PasswordProperties.propertiesFile;
+        if (!file.exists()) {
+            PasswordProperties.define(file);
+        }
 
-        properties.load(file);
+        properties.load();
         return generatePassword();
     }
 

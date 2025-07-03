@@ -6,10 +6,22 @@ import java.io.*;
 
 public class PasswordProperties {
     public static final String DEFAULT_PROPERTIES_FILE_NAME = "password.properties";
+    public static File propertiesFile = new File("password.properties");
+    public static final String DEFAULT_CANDIDATE_STRING = LowerCaseCharacter.NAME
+            + Candidate.NAME_SEPARATOR + NumberCharacter.NAME
+            + Candidate.NAME_SEPARATOR + SymbolCharacter.NAME;
+    public static PasswordProperties properties;
 
     int length;
     String CandidatesString;
 
+    public static File getFile() {
+        return propertiesFile;
+    }
+
+    public static void setFile(File file) {
+        PasswordProperties.propertiesFile = file;
+    }
 
     public String getCandidatesString() {
         return CandidatesString;
@@ -27,17 +39,15 @@ public class PasswordProperties {
         this.length = length;
     }
 
-    public void load (File file) {
-       if (!file.exists()) {
-           defineNew(file);
-       }
-
-       loadProperties(file);
-    }
-
-    public void store (File file){
+    /**************************************************************************
+     * Store the properties in a file
+     *
+     *
+     * @param file
+     */
+    public static void store (File file){
         Gson gson = new Gson();
-        String text = gson.toJson(this);
+        String text = gson.toJson(PasswordProperties.properties);
         FileWriter fileWriter;
 
         //
@@ -46,6 +56,7 @@ public class PasswordProperties {
         if (file.exists())
         {
             file.delete();
+            PasswordProperties.define();
         }
 
         try {
@@ -67,51 +78,164 @@ public class PasswordProperties {
         }
     }
 
-    public static void defineNew(File file) {
+//    public static void load() {
+//        load(file);
+//    }
+
+    /**************************************************************************
+     * Load the properties from a file
+     *
+     * @param file The file to load the properties from.
+     */
+//    public static void load(File file) {
+//        try {
+//            FileReader fileReader = new FileReader(file);
+//            Gson gson = new Gson();
+//            PasswordProperties properties = gson.fromJson(fileReader, PasswordProperties.class);
+//            Password.properties = properties;
+//            try {
+//                fileReader.close();
+//            } catch (IOException e) {
+//                throw new RuntimeException("could not close FileReader, " + file, e);
+//            }
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException("could not read properties file, " + file.toString());
+//        }
+//    }
+
+    /**************************************************************************
+     * Define a properties .
+     *
+     * This method will create a new properties .  This method assumes that
+     * the  does not exist and will behave unpredictably if it exists.  The
+     *  created will have the default properties assigned to it.
+     *
+     * @see PasswordProperties for the default poperties.
+     * @param file The file to create.
+     * @throws RuntimeException if there are opening the , writing the
+     * , or closing the .
+     */
+    public static void define(File file) {
+        if (file.exists()) {
+            throw new RuntimeException("the file, " + file + ", already exists");
+        }
+
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file);
         } catch (IOException e) {
-            throw new RuntimeException("could not open properties file for writing, " + file.getAbsolutePath());
+            throw new RuntimeException("could not open properties  for writing, " + file);
         }
+
         PasswordProperties passwordProperties = new PasswordProperties();
-        passwordProperties.setLength(8);
-        passwordProperties.setCandidatesString(Candidate.LOWERCASE_NAME + "," + Candidate.NUMBER_NAME + "," + Candidate.SYMBOL_NAME);
+        passwordProperties.setLength(9);
+        passwordProperties.setCandidatesString(DEFAULT_CANDIDATE_STRING);
+        properties = passwordProperties;
         Gson gson = new Gson();
         String text = gson.toJson(passwordProperties);
 
         try {
             fileWriter.write(text);
         } catch (IOException e) {
-            throw new RuntimeException("error writing file, " + file.getAbsolutePath());
+            throw new RuntimeException("error writing , " + file);
         }
 
         try {
             fileWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException("could not close FileWriter for properties file, " + file, e);
-
+            throw new RuntimeException("could not close FilWriter for , " + file, e);
         }
     }
 
+    /**************************************************************************
+     * Define a new properties file given by the file
+     *
+     * This is a convenience method equivalent to calling define(PasswordProperties.file)
+     */
+    public static void define () {
+        define(propertiesFile);
+    }
 
+    /**************************************************************************
+     * Load the properties from the file designated by PasswordProperties.file
+     *
+     * Load the properties from the designated file.  The method assumes that
+     * the designated file exists and will behave unpredictably,
+     */
+    public static void load(File file) {
+        FileReader fileReader = null;
 
-    public static void loadProperties(File file) {
         try {
-            FileReader fileReader = new FileReader(file);
-            Gson gson = new Gson();
-            PasswordProperties properties = gson.fromJson(fileReader, PasswordProperties.class);
-            Password.properties = properties;
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                throw new RuntimeException("could not close FileReader, " + file, e);
-            }
+            fileReader = new FileReader(file);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("could not read properties file, " + file.toString());
+            throw new RuntimeException("the properties file, " + file + ", was not found", e);
+        }
+        Gson gson = new Gson();
+        PasswordProperties properties = gson.fromJson(fileReader, PasswordProperties.class);
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException("could not close FileReader for file, " +  file, e);
+        }
+        Password.properties = properties;
+    }
+
+    /**************************************************************************
+     * Load the properties from the file defined by PasswordProperties.file
+     *
+     * A convenience method equivalent to load(PasswordProperties.file)
+     */
+    public static void load() {
+        load(propertiesFile);
+    }
+
+    public static void store() {
+        store(propertiesFile);
+    }
+
+    public static void overWrite() {
+        overWrite(propertiesFile);
+    }
+
+    private static void overWrite(File file) {
+        if (file.exists()) {
+            if (!file.delete()) {
+                throw new RuntimeException("could not delete file, " + file);
+            }
+        }
+
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+        } catch (IOException e) {
+            throw new RuntimeException("could not open properties  for writing, " + file);
+        }
+
+        PasswordProperties passwordProperties = new PasswordProperties();
+        passwordProperties.setLength(9);
+        passwordProperties.setCandidatesString(DEFAULT_CANDIDATE_STRING);
+        properties = passwordProperties;
+        Gson gson = new Gson();
+        String text = gson.toJson(passwordProperties);
+
+        try {
+            fileWriter.write(text);
+        } catch (IOException e) {
+            throw new RuntimeException("error writing , " + file);
+        }
+
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException("could not close FilWriter for , " + file, e);
         }
     }
 
 
-
+    public void setDefaultProperties() {
+        properties.setLength(9);
+        properties.setCandidatesString(LowerCaseCharacter.NAME + Candidate.NAME_SEPARATOR +
+                NumberCharacter.NAME + Candidate.NAME_SEPARATOR +
+                SymbolCharacter.NAME);
+    }
 }

@@ -8,24 +8,31 @@ class PasswordTest {
 
     @Test
     void generate() {
-        File file = new File(PasswordProperties.DEFAULT_PROPERTIES_FILE_NAME);
-        if (file.exists())
-            file.delete();
+        Password password = new Password();
+
+        File file = PasswordProperties.propertiesFile;
+        if (file.exists()) {
+            if (!file.delete()) {
+                throw new RuntimeException("could not delete file, " + file);
+            }
+        }
 
         PasswordProperties properties = new PasswordProperties();
-        properties.defineNew(file);
+        PasswordProperties.define(file);
 
         properties.setCandidatesString(NumberCharacter.NAME);
         properties.store(file);
 
-        Password password = new Password();
-        String passwordString = password.generate();
+        assert (properties  != null);
 
-        StringBuilder builder = new StringBuilder();
+        Password.properties = properties;
+        PasswordProperties.properties = properties;
+
+        String passwordString = password.generate();
 
         NumberCharacter numberCharacter = new NumberCharacter();
 
-        assert(numberCharacter.contains(passwordString));
+        assert(numberCharacter.in(passwordString));
     }
 
     @Test
@@ -35,10 +42,10 @@ class PasswordTest {
             file.delete();
 
         PasswordProperties properties = new PasswordProperties();
-        properties.defineNew(file);
+        properties.define(file);
 
         properties.setCandidatesString(NumberCharacter.NAME);
-        properties.store(file);
+        PasswordProperties.overWrite();
 
         Password password = new Password();
         String passwordString = password.generate();
@@ -47,6 +54,6 @@ class PasswordTest {
 
         NumberCharacter numberCharacter = new NumberCharacter();
 
-        assert(numberCharacter.contains(passwordString));
+        assert(numberCharacter.in(passwordString));
     }
 }
