@@ -1,7 +1,7 @@
 package com.ltsllc.password;
 
 public class AnyLowerCaseCharacter extends Candidate {
-    public static final String NAME = "AnyCharacterAllLowerCase";
+    public static final String NAME = ANY_LOWER_CASE_NAME.toString();
 
     @Override
     public char generate() {

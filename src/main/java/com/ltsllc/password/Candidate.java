@@ -2,11 +2,18 @@ package com.ltsllc.password;
 
 import java.util.Random;
 
+/******************************************************************************
+ * A candidate character for a password.
+ *
+ * This abstract class defines the set of characters from which a password
+ * character is chosen.  So the {@link com.ltsllc.password.NumberCharacter}
+ * class represents the set [1234567890].
+ */
 public abstract class Candidate {
     public static final Object UPPERCASE_NAME = "Uppercase";
     public static final String UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    public static final Object LOWERCASE_NAME = "Lowercase";
+    public static final Object LOWERCASE_NAME = "LowerCase";
     public static final String LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
 
     public static final Object NUMBER_NAME = "Number";
@@ -23,12 +30,12 @@ public abstract class Candidate {
 
     public static final Object NAME_SEPARATOR = ",";
 
+    public static final Object ANY_LOWER_CASE_NAME = "AnyLowerCase";
     public static final String ANY_LOWER_CASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890!#$%^&*()";
 
     public static Candidate ourInstance;
 
     public static Random random = new Random();
-    public static boolean initialized = false;
 
     static {
         Candidate.ourInstance = new UnknownCharacter();
@@ -48,6 +55,9 @@ public abstract class Candidate {
             return new AllSymbolsCharacter();
         else if (s.equalsIgnoreCase(ANY_NAME.toString()))
             return new AnyCharacter();
+        else if (s.equalsIgnoreCase(ANY_LOWER_CASE_NAME.toString()))
+            return new AnyLowerCaseCharacter();
+
 
         return new UnknownCharacter();
     }
