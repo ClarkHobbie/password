@@ -3,7 +3,7 @@ package com.ltsllc.password;
 import java.io.File;
 
 /******************************************************************************
- * Create a new, random password  subject to some constraints.
+ * A class that generates random passwords, subject to constraints.
  */
 public class Password {
     public static PasswordProperties properties = new PasswordProperties();

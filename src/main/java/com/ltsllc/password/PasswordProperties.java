@@ -4,9 +4,32 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
+/******************************************************************************
+ * A class that holds the properties that constrain how a password is
+ * generated.
+ *
+ * The properties are
+ * <table border="2" >
+ *     <tr>
+ *         <th>name</th>
+ *         <th>default value</th>
+ *         <th>meaning</th>
+ *     </tr>
+ *     <tr>
+ *         <td>length</td>
+ *         <td>8</td>
+ *         <td>The length of the password, in characters</td>
+ *     </tr>
+ *     <tr>
+ *         <td>candidatesString</td>
+ *         <td>LowerCase,Number,Symbol</td>
+ *         <td>The components that must occur in the password.</td>
+ *     </tr>
+ * </table>
+ */
 public class PasswordProperties {
     public static final String DEFAULT_PROPERTIES_FILE_NAME = "password.properties";
-    public static File propertiesFile = new File("password.properties");
+    public static File propertiesFile = new File(DEFAULT_PROPERTIES_FILE_NAME);
     public static final String DEFAULT_CANDIDATE_STRING = LowerCaseCharacter.NAME
             + Candidate.NAME_SEPARATOR + NumberCharacter.NAME
             + Candidate.NAME_SEPARATOR + SymbolCharacter.NAME;
@@ -40,10 +63,16 @@ public class PasswordProperties {
     }
 
     /**************************************************************************
-     * Store the properties in a file
+     * Store the properties in a file.
      *
+     * This method will delete the file, if it exists, and then call
+     * {@link #define()}.
      *
-     * @param file
+     * <p>
+     * The properties are stored as a JSON object using Gson to create the
+     * JSON.
+     *
+     * @param file The file to store the properties
      */
     public static void store (File file){
         Gson gson = new Gson();
@@ -108,12 +137,12 @@ public class PasswordProperties {
      *
      * This method will create a new properties .  This method assumes that
      * the  does not exist and will behave unpredictably if it exists.  The
-     *  created will have the default properties assigned to it.
+     * created will have the default properties assigned to it.
      *
      * @see PasswordProperties for the default poperties.
      * @param file The file to create.
-     * @throws RuntimeException if there are opening the , writing the
-     * , or closing the .
+     * @throws RuntimeException if there are errors opening the file, writing
+     * the file, or closing the file.
      */
     public static void define(File file) {
         if (file.exists()) {

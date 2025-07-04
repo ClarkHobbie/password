@@ -9,7 +9,8 @@ import java.util.Random;
  *
  * Items can be added in any order, but they will be returned in a random
  * order.  Calling {@link Bag#next} results in the item being removed from the
- * bag, unlike {@link java.util.List#get(int)}.
+ * bag, unlike {@link java.util.List#get(int)}, which leaves the item in the
+ * list.
  *
  * @param <T> the type of the items
  */

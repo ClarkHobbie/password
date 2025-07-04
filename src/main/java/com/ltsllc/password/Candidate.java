@@ -8,6 +8,9 @@ import java.util.Random;
  * This abstract class defines the set of characters from which a password
  * character is chosen.  So the {@link com.ltsllc.password.NumberCharacter}
  * class represents the set [1234567890].
+ *
+ * The (@link #generate} method must be overridden and creates a character
+ * taken from the set of characters that this class represents.
  */
 public abstract class Candidate {
     public static final Object UPPERCASE_NAME = "Uppercase";

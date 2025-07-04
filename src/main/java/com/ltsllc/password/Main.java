@@ -11,6 +11,26 @@ public class Main {
      * This method looks in password.properties for configuration
      * data.  The configuration data takes the form of a JASON file
      * that controls the length and content of the password.
+     *
+     * It then generates a password based on those properties.
+     *
+     * If a properties file does not exist, this method will create one with
+     * the properties defined as described in the
+     * {@link PasswordProperties#setDefaultProperties()} method.
+     *
+     * <p>
+     * Briefly the default properties are:
+     * <UL>
+     *     <LI>Always include a lower case character.</LI>
+     *     <LI>Always include a digit.</LI>
+     *     <LI>Always include a symbol taken from the set [!@#$%^&amp;*()]</LI>
+     *     <LI>All other characters are draw from the sets of all digits,
+     *     the set of all symbols (as defined above) and the set of all lower
+     *     case characters.</LI>
+     *     <LI>The length of the password is 8.</LI>
+     *     <LI>The resulting password has an upper case character prepended to
+     *     it making total length 9 characters.</LI>
+     * </UL>
      */
     public static void main() {
         //
@@ -81,8 +101,7 @@ public class Main {
             throw new RuntimeException("could not open properties file for writing, " + file.getAbsolutePath());
         }
         PasswordProperties passwordProperties = new PasswordProperties();
-        passwordProperties.setLength(9);
-        passwordProperties.setCandidatesString(Candidate.UPPERCASE_NAME + "," + Candidate.LOWERCASE_NAME + "," + Candidate.NUMBER_NAME + "," + Candidate.SYMBOL_NAME);
+        passwordProperties.setDefaultProperties();
         Gson gson = new Gson();
         String text = gson.toJson(passwordProperties);
 
