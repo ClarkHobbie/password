@@ -4,6 +4,21 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
+/******************************************************************************
+ * The class that contains the main method.
+ *
+ * This is the main class for the password program.  To use it the user
+ * calls {@link Main#main} and the class prints the password, constrained by
+ * the values in password.properties  By default, the password will be
+ * <ul>
+ *     <li>9 characters long.</li>
+ *     <li>Will contain an upper case character as its first character.</li>
+ *     <li>Will contain a lower case character.</li>
+ *     <li>Will contain a digit.</li>
+ *     <li>The rest of the characters are taken from the set of all digits,
+ *     symbols ([@#$%^&amp;*()]), and lower case letters.</li>
+ * </ul>
+ */
 public class Main {
     /****************************************************************
      * prioritize a file

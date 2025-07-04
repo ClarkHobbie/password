@@ -9,7 +9,8 @@ import java.io.*;
  * generated.
  *
  * The properties are
- * <table border="2" >
+ * <table border="1" >
+ *     <caption>Properties</caption>
  *     <tr>
  *         <th>name</th>
  *         <th>default value</th>

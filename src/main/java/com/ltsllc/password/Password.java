@@ -18,8 +18,8 @@ public class Password {
      * new file by that name and gives it the properties defined by
      * {@link PasswordProperties#setDefaultProperties()}.
      *
-     * @see {@link PasswordProperties#setDefaultProperties()}
      * @return The generated password.
+     * @see PasswordProperties#setDefaultProperties()
      */
     public String generate () {
         File file = PasswordProperties.propertiesFile;
