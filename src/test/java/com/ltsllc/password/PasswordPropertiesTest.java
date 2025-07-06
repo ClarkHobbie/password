@@ -1,8 +1,9 @@
 package com.ltsllc.password;
 
-import com.ltsllc.commons.io.TextFile;
+
 
 import com.google.gson.Gson;
+import com.ltsllc.commons.io.TextFile;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
