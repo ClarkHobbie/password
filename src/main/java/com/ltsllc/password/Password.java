@@ -10,6 +10,7 @@ import java.io.File;
 public class Password {
     public static PasswordProperties properties = new PasswordProperties();
     public static final String DEFAULT_PROPERTIES_FILE = "password.properties";
+    public static String password = null;
 
 
     /**************************************************************************
@@ -30,7 +31,8 @@ public class Password {
         }
 
         properties.load();
-        return generatePassword();
+        password = generatePassword();
+        return password;
     }
 
     /**************************************************************************

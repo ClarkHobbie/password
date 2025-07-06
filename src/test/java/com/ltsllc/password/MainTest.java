@@ -12,6 +12,12 @@ class MainTest {
 
     @Test
     void main() {
+        Main main = new Main();
+        String[] args = new String[0];
+        Main.main(args);
+
+        assert (Main.password != null);
+        assert (Character.isUpperCase(Main.password.password.charAt(0)));
     }
 
     @Test

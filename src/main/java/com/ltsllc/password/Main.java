@@ -20,15 +20,17 @@ import java.io.*;
  * </ul>
  */
 public class Main {
-    /****************************************************************
-     * prioritize a file
-     *
+    public static Password password;
+
+    /**
+     * Create a new password.
+     * <p>
      * This method looks in password.properties for configuration
      * data.  The configuration data takes the form of a JASON file
      * that controls the length and content of the password.
-     *
+     * <p>
      * It then generates a password based on those properties.
-     *
+     * <p>
      * If a properties file does not exist, this method will create one with
      * the properties defined as described in the
      * {@link PasswordProperties#setDefaultProperties()} method.
@@ -40,14 +42,14 @@ public class Main {
      *     <LI>Always include a digit.</LI>
      *     <LI>Always include a symbol taken from the set [!@#$%^&amp;*()]</LI>
      *     <LI>All other characters are draw from the sets of all digits,
-     *     the set of all symbols (as defined above) and the set of all lower
+     *     the set of symbols (as defined above) and the set of all lower
      *     case characters.</LI>
      *     <LI>The length of the password is 8.</LI>
      *     <LI>The resulting password has an upper case character prepended to
      *     it making total length 9 characters.</LI>
      * </UL>
      */
-    public static void main() {
+    public static void main(String[] args) {
         //
         // load properties, if properties don't exist, create them
         //
@@ -59,7 +61,7 @@ public class Main {
         }
         loadProperties(file);
 
-        Password password = new Password();
+        password = new Password();
 
         //
          // Add a prefix of 1 uppercase character
@@ -72,8 +74,9 @@ public class Main {
          // add the rest of the password
         //
         stringBuilder.append(password.generate());
+        password.password = stringBuilder.toString();
 
-        System.out.println(stringBuilder.toString());
+        System.out.println(password.password);
     }
 
     /**************************************************************************
