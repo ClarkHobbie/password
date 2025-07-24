@@ -1,5 +1,8 @@
 package com.ltsllc.password;
 
+/**
+ * A {@link Candidate} that takes it's characters from {@link #NUMBER_CHARACTERS}.
+ */
 public class NumberCharacter extends Candidate{
     public static final String NAME = Candidate.NUMBER_NAME.toString();
 

@@ -1,5 +1,8 @@
 package com.ltsllc.password;
 
+/**
+ * A {@link Candidate} that takes it's characters from {@link #UPPERCASE_CHARACTERS}.
+ */
 public class UpperCaseCharacter extends Candidate{
     public static final String NAME = Candidate.UPPERCASE_NAME.toString();
 

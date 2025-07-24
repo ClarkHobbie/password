@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
-/******************************************************************************
+/**
  * The class that contains the main method.
  *
  * This is the main class for the password program.  To use it the user
@@ -79,7 +79,7 @@ public class Main {
         System.out.println(password.password);
     }
 
-    /**************************************************************************
+    /**
      * Generate the password
      *
      * This method will also load password.properties.  The method then
@@ -99,7 +99,7 @@ public class Main {
         return passwordGenerator.generate();
     }
 
-    /**************************************************************************
+    /**
      * Define a new properties file.
      *
      * This method will create a new properties file.  This method assumes that
@@ -136,7 +136,7 @@ public class Main {
         }
     }
 
-    /**************************************************************************
+    /**
      * Load the properties file
      *
      * Load the properties from the designated file.  The method assumes that

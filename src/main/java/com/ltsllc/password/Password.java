@@ -4,7 +4,7 @@ import com.ltsllc.commons.util.Bag;
 
 import java.io.File;
 
-/******************************************************************************
+/**
  * A class that generates random passwords, subject to constraints.
  */
 public class Password {
@@ -13,7 +13,7 @@ public class Password {
     public static String password = null;
 
 
-    /**************************************************************************
+    /**
      * Generate a new password.
      *
      * The method uses the properties from
@@ -35,7 +35,7 @@ public class Password {
         return password;
     }
 
-    /**************************************************************************
+    /**
      * Generate a new password.
      *
      * The method parses in the list of requirements given by

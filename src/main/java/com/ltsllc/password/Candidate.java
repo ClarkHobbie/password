@@ -2,7 +2,7 @@ package com.ltsllc.password;
 
 import java.util.Random;
 
-/******************************************************************************
+/**
  * A candidate character for a password.
  *
  * This abstract class defines the set of characters from which a password
@@ -44,7 +44,7 @@ public abstract class Candidate {
         Candidate.ourInstance = new UnknownCharacter();
     }
 
-    /**************************************************************************
+    /**
      * Convert a String to the {@link Candidate} it represents.
      *
      * The method assumes that the input String is one of NAMEs defined by
@@ -74,7 +74,7 @@ public abstract class Candidate {
         return new UnknownCharacter();
     }
 
-    /**************************************************************************
+    /**
      * Convert a string to a sequence of {@link Candidate} instances.
      *
      * The method assumes that the string takes the form of a sequence of
@@ -95,7 +95,7 @@ public abstract class Candidate {
         return candidates;
     }
 
-    /**************************************************************************
+    /**
      * Create a character taken from the set of characters the {@link Candidate}
      * defines.
      *

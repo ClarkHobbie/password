@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
-/******************************************************************************
+/**
  * A class that holds the properties that constrain how a password is
  * generated.
  *
@@ -63,7 +63,7 @@ public class PasswordProperties {
         this.length = length;
     }
 
-    /**************************************************************************
+    /**
      * Store the properties in a file.
      *
      * This method will delete the file, if it exists, and then call
@@ -108,34 +108,10 @@ public class PasswordProperties {
         }
     }
 
-//    public static void load() {
-//        load(file);
-//    }
 
-    /**************************************************************************
-     * Load the properties from a file
-     *
-     * @param file The file to load the properties from.
-     */
-//    public static void load(File file) {
-//        try {
-//            FileReader fileReader = new FileReader(file);
-//            Gson gson = new Gson();
-//            PasswordProperties properties = gson.fromJson(fileReader, PasswordProperties.class);
-//            Password.properties = properties;
-//            try {
-//                fileReader.close();
-//            } catch (IOException e) {
-//                throw new RuntimeException("could not close FileReader, " + file, e);
-//            }
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException("could not read properties file, " + file.toString());
-//        }
-//    }
-
-    /**************************************************************************
-     * Define a properties .
-     *
+    /**
+     * Define a properties.
+     * <p>
      * This method will create a new properties .  This method assumes that
      * the  does not exist and will behave unpredictably if it exists.  The
      * created will have the default properties assigned to it.
@@ -176,18 +152,18 @@ public class PasswordProperties {
         }
     }
 
-    /**************************************************************************
+    /**
      * Define a new properties file given by the file
-     *
+     * <p>
      * This is a convenience method equivalent to calling define(PasswordProperties.file)
      */
     public static void define () {
         define(propertiesFile);
     }
 
-    /**************************************************************************
+    /**
      * Load the properties from the file designated by PasswordProperties.file
-     *
+     * <p>
      * Load the properties from the designated file.  The method assumes that
      * the designated file exists and will behave unpredictably,
      */
